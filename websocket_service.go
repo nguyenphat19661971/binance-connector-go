@@ -154,6 +154,10 @@ func (c *WebsocketStreamClient) WsCombinedPartialDepthServe(symbolLevels map[str
 // WsDepthHandler handle websocket depth event
 type WsDepthHandler func(event *WsDepthEvent)
 
+func (c *WebsocketStreamClient) WsConnect(handler WsHandler, errHandler ErrHandler) (writeCh chan interface{}, doneCh, stopCh chan struct{}, err error) {
+	return wsConnect(c.Endpoint, handler, errHandler)
+}
+
 // WsDepthServe serve websocket depth handler with a symbol, using 1sec updates
 func (c *WebsocketStreamClient) WsDepthServe(symbol string, handler WsDepthHandler, errHandler ErrHandler) (doneCh, stopCh chan struct{}, err error) {
 	endpoint := fmt.Sprintf("%s/%s@depth", c.Endpoint, strings.ToLower(symbol))
