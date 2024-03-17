@@ -777,12 +777,12 @@ type WsMarketMiniStatEvent struct {
 
 // WsBookTickerEvent define websocket best book ticker event.
 type WsBookTickerEvent struct {
-	UpdateID     int64  `json:"u"`
-	Symbol       string `json:"s"`
-	BestBidPrice string `json:"b"`
-	BestBidQty   string `json:"B"`
-	BestAskPrice string `json:"a"`
-	BestAskQty   string `json:"A"`
+	UpdateID     int64   `json:"u"`
+	Symbol       string  `json:"s"`
+	BestBidPrice float64 `json:"b,string"`
+	BestBidQty   float64 `json:"B,string"`
+	BestAskPrice float64 `json:"a,string"`
+	BestAskQty   float64 `json:"A,string"`
 }
 
 type WsCombinedBookTickerEvent struct {
