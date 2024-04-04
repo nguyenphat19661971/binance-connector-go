@@ -7,14 +7,20 @@ import (
 
 // Create Listen Key
 type CreateListenKey struct {
-	c *Client
+	c        *Client
+	endpoint string
+}
+
+func (s *CreateListenKey) Endpoint(endpoint string) *CreateListenKey {
+	s.endpoint = endpoint
+	return s
 }
 
 // Do send request
 func (s *CreateListenKey) Do(ctx context.Context, opts ...RequestOption) (listenKey string, err error) {
 	r := &request{
 		method:   http.MethodPost,
-		endpoint: "/api/v3/userDataStream",
+		endpoint: s.endpoint,
 		secType:  secTypeAPIKey,
 	}
 	data, err := s.c.callAPI(ctx, r, opts...)
@@ -33,6 +39,7 @@ func (s *CreateListenKey) Do(ctx context.Context, opts ...RequestOption) (listen
 type PingUserStream struct {
 	c         *Client
 	listenKey string
+	endpoint  string
 }
 
 // ListenKey set listen key
@@ -41,11 +48,16 @@ func (s *PingUserStream) ListenKey(listenKey string) *PingUserStream {
 	return s
 }
 
+func (s *PingUserStream) Endpoint(endpoint string) *PingUserStream {
+	s.endpoint = endpoint
+	return s
+}
+
 // Do send request
 func (s *PingUserStream) Do(ctx context.Context, opts ...RequestOption) (err error) {
 	r := &request{
 		method:   http.MethodPut,
-		endpoint: "/api/v3/userDataStream",
+		endpoint: s.endpoint,
 		secType:  secTypeAPIKey,
 	}
 	r.setParam("listenKey", s.listenKey)
@@ -57,6 +69,7 @@ func (s *PingUserStream) Do(ctx context.Context, opts ...RequestOption) (err err
 type CloseUserStream struct {
 	c         *Client
 	listenKey string
+	endpoint  string
 }
 
 // ListenKey set listen key
@@ -65,11 +78,16 @@ func (s *CloseUserStream) ListenKey(listenKey string) *CloseUserStream {
 	return s
 }
 
+func (s *CloseUserStream) Endpoint(endpoint string) *CloseUserStream {
+	s.endpoint = endpoint
+	return s
+}
+
 // Do send request
 func (s *CloseUserStream) Do(ctx context.Context, opts ...RequestOption) (err error) {
 	r := &request{
 		method:   http.MethodDelete,
-		endpoint: "/api/v3/userDataStream",
+		endpoint: s.endpoint,
 		secType:  secTypeAPIKey,
 	}
 	r.setParam("listenKey", s.listenKey)
